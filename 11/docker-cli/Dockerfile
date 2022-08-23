@@ -1,7 +1,5 @@
 FROM jenkins/jenkins:lts-jdk11
 
-#COPY --chown=jenkins:jenkins plugins.txt /usr/share/jenkins/ref/plugins.txt
-#RUN jenkins-plugin-cli -f /usr/share/jenkins/ref/plugins.txt
 
 USER root
 RUN apt-get update && apt-get install -y lsb-release
@@ -13,4 +11,7 @@ RUN echo "deb [arch=$(dpkg --print-architecture) \
   $(lsb_release -cs) stable" > /etc/apt/sources.list.d/docker.list
 RUN apt-get update && apt-get install -y docker-ce-cli
 USER jenkins
+
+#COPY --chown=jenkins:jenkins plugins.txt /usr/share/jenkins/ref/plugins.txt
+#RUN jenkins-plugin-cli -f /usr/share/jenkins/ref/plugins.txt
 # RUN jenkins-plugin-cli --plugins "blueocean:1.25.3 docker-workflow:1.28"
