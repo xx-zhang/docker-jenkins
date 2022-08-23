@@ -3,7 +3,7 @@ FROM registry.cn-hangzhou.aliyuncs.com/bdpapp/oe2203:lts
 LABEL maintainer="actanble@gmail.com"
 
 RUN sed -i 's/TMOUT=300/TMOUT=0/g' /etc/bashrc
-RUN yum -y install openssh-server 
+RUN yum -y install openssh-server java
 
 ADD ./ssh /etc/ssh 
 RUN chmod 600 -R /etc/ssh/ssh_host_* 
