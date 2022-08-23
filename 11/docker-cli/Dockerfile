@@ -14,4 +14,5 @@ USER jenkins
 
 COPY --chown=jenkins:jenkins plugins.txt /usr/share/jenkins/ref/plugins.txt
 RUN jenkins-plugin-cli -f /usr/share/jenkins/ref/plugins.txt
-# RUN jenkins-plugin-cli --plugins "blueocean:1.25.3 docker-workflow:1.28"
+# RUN jenkins-plugin-cli --plugins "docker-build-step docker-workflow"
+
