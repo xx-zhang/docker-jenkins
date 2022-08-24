@@ -31,6 +31,7 @@ RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.r
 ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
 
 ARG TARGETARCH
+ENV TARGETARCH amd64
 ARG COMMIT_SHA
 
 ARG user=jenkins
