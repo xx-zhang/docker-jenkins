@@ -21,7 +21,7 @@ RUN yum install -y \
   && yum clean all
 
 RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh -o /tmp/script.rpm.sh \
-  && bash /tmp/script.rpm.sh \
+  && os=el dist=8 bash /tmp/script.rpm.sh \
   && rm -f /tmp/script.rpm.sh \
   && yum install -y \
     git-lfs \
@@ -75,13 +75,14 @@ RUN curl -fsSL "https://github.com/krallin/tini/releases/download/${TINI_VERSION
 
 # jenkins version being bundled in this docker image
 ARG JENKINS_VERSION
-ENV JENKINS_VERSION ${JENKINS_VERSION:-2.356}
+ENV JENKINS_VERSION ${JENKINS_VERSION:-2.365}
 
 # jenkins.war checksum, download will be validated using it
-ARG JENKINS_SHA=1163c4554dc93439c5eef02b06a8d74f98ca920bbc012c2b8a089d414cfa8075
+ARG JENKINS_SHA=7f48fa92f7ae26f50d37be13d81a018643b961ba99bc1ac88663723b657ab191
 
 # Can be used to customize where jenkins.war get downloaded from
-ARG JENKINS_URL=https://repo.jenkins-ci.org/public/org/jenkins-ci/main/jenkins-war/${JENKINS_VERSION}/jenkins-war-${JENKINS_VERSION}.war
+#ARG JENKINS_URL=https://repo.jenkins-ci.org/public/org/jenkins-ci/main/jenkins-war/${JENKINS_VERSION}/jenkins-war-${JENKINS_VERSION}.war
+ARG JENKINS_URL=https://mirror.tuna.tsinghua.edu.cn/jenkins/war/${JENKINS_VERSION}/jenkins.war
 
 # could use ADD but this one does not check Last-Modified header neither does it allow to control checksum
 # see https://github.com/docker/docker/issues/8331
@@ -91,6 +92,7 @@ RUN curl -fsSL ${JENKINS_URL} -o /usr/share/jenkins/jenkins.war \
   && rm -f /tmp/jenkins_sha
 
 ENV JENKINS_UC https://updates.jenkins.io
+#ENV JENKINS_UC https://mirrors.tuna.tsinghua.edu.cn/jenkins/updates/update-center.json
 ENV JENKINS_UC_EXPERIMENTAL=https://updates.jenkins.io/experimental
 ENV JENKINS_INCREMENTALS_REPO_MIRROR=https://repo.jenkins-ci.org/incrementals
 RUN chown -R ${user} "$JENKINS_HOME" "$REF"
