@@ -125,6 +125,13 @@ ENTRYPOINT ["/sbin/tini", "--", "/usr/local/bin/jenkins.sh"]
 # from a derived Dockerfile, can use `RUN install-plugins.sh active.txt` to setup $REF/plugins from a support bundle
 COPY install-plugins.sh /usr/local/bin/install-plugins.sh
 
+# fix permission bug
+USER root
+RUN chown -R ${user} /usr/local/bin/* /bin/jenkins-plugin-cli
+RUN chmod u+x /usr/local/bin/* /bin/jenkins-plugin-cli
+
+USER ${user}
+
 # metadata labels
 LABEL \
     org.opencontainers.image.vendor="s project" \
