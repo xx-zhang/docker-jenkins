@@ -1,4 +1,6 @@
 FROM registry.cn-hangzhou.aliyuncs.com/pendevs/jenkins:v2.365.oe2203
+ARG user=jenkins
+ARG group=jenkins
 
 USER root
 RUN yum -y install docker
