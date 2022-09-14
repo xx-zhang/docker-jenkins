@@ -84,11 +84,12 @@ ARG JENKINS_SHA=7f48fa92f7ae26f50d37be13d81a018643b961ba99bc1ac88663723b657ab191
 # Can be used to customize where jenkins.war get downloaded from
 #ARG JENKINS_URL=https://repo.jenkins-ci.org/public/org/jenkins-ci/main/jenkins-war/${JENKINS_VERSION}/jenkins-war-${JENKINS_VERSION}.war
 ARG JENKINS_URL=https://mirror.tuna.tsinghua.edu.cn/jenkins/war/${JENKINS_VERSION}/jenkins.war
+ARG JENKINS_SHA_URL=https://mirror.tuna.tsinghua.edu.cn/jenkins/war/${JENKINS_VERSION}/jenkins.war.sha256
 
 # could use ADD but this one does not check Last-Modified header neither does it allow to control checksum
 # see https://github.com/docker/docker/issues/8331
 RUN curl -fsSL ${JENKINS_URL} -o /usr/share/jenkins/jenkins.war \
-  && echo "${JENKINS_SHA}  /usr/share/jenkins/jenkins.war" >/tmp/jenkins_sha \
+  && curl -fsSL ${JENKINS_SHA_URL} -o /tmp/jenkins_sha \
   && sha256sum -c --strict /tmp/jenkins_sha \
   && rm -f /tmp/jenkins_sha
 
