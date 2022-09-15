@@ -88,14 +88,14 @@ ARG JENKINS_SHA_URL=https://mirror.tuna.tsinghua.edu.cn/jenkins/war/${JENKINS_VE
 
 # could use ADD but this one does not check Last-Modified header neither does it allow to control checksum
 # see https://github.com/docker/docker/issues/8331
-RUN curl -fsSL ${JENKINS_URL} -o /usr/share/jenkins/jenkins.war \
-  && curl -fsSL ${JENKINS_SHA_URL} -o /tmp/jenkins_sha \
-  && sha256sum -c --strict /tmp/jenkins_sha \
-  && rm -f /tmp/jenkins_sha
+#RUN curl -fsSL ${JENKINS_URL} -o /usr/share/jenkins/jenkins.war \
+#  && curl -fsSL ${JENKINS_SHA_URL} -o /tmp/jenkins_sha \
+#  && sha256sum -c --strict /tmp/jenkins_sha \
+#  && rm -f /tmp/jenkins_sha
 
-ENV JENKINS_UC https://updates.jenkins.io
+ENV JENKINS_UC https://mirrors.tuna.tsinghua.edu.cn/jenkins/updates/update-center.json
 #ENV JENKINS_UC https://mirrors.tuna.tsinghua.edu.cn/jenkins/updates/update-center.json
-ENV JENKINS_UC_EXPERIMENTAL=https://updates.jenkins.io/experimental
+ENV JENKINS_UC_EXPERIMENTAL=https://mirrors.tuna.tsinghua.edu.cn/jenkins/updates/experimental
 ENV JENKINS_INCREMENTALS_REPO_MIRROR=https://repo.jenkins-ci.org/incrementals
 RUN chown -R ${user} "$JENKINS_HOME" "$REF"
 
