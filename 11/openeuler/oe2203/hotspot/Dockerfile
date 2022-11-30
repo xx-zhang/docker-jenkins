@@ -22,7 +22,11 @@ RUN yum install -y \
 
 RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh -o /tmp/script.rpm.sh \
   && os=el dist=8 bash /tmp/script.rpm.sh \
-  && rm -f /tmp/script.rpm.sh \
+ org.jruby.javasupport.proxy.InternalJavaProxy
+        at java.base/java.net.URLClassLoader.findClass(URLClassLoader.java:476)
+        at jenkins.util.URLClassLoader2.findClass(URLClassLoader2.java:35)
+        at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:589)
+        at java.base/java.lang.ClassLoader.loadClass(ClassLo && rm -f /tmp/script.rpm.sh \
   && yum install -y \
     git-lfs \
   && yum clean all \
@@ -76,7 +80,7 @@ RUN curl -fsSL "https://github.com/krallin/tini/releases/download/${TINI_VERSION
 
 # jenkins version being bundled in this docker image
 ARG JENKINS_VERSION
-ENV JENKINS_VERSION ${JENKINS_VERSION:-2.367}
+ENV JENKINS_VERSION ${JENKINS_VERSION:-2.375}
 
 # jenkins.war checksum, download will be validated using it
 #ARG JENKINS_SHA=7f48fa92f7ae26f50d37be13d81a018643b961ba99bc1ac88663723b657ab191
@@ -132,8 +136,8 @@ RUN chown -R ${user} /usr/local/bin/* /bin/jenkins-plugin-cli
 RUN chmod u+x /usr/local/bin/* /bin/jenkins-plugin-cli
 
 RUN find /usr/local/bin/ -type f | xargs sed -i 's/\r//'  && sed -i 's/\r//' /bin/jenkins-plugin-cli
-COPY --chown=jenkins:jenkins ./docker-cli/plugins.txt /usr/share/jenkins/ref/plugins.txt
-RUN jenkins-plugin-cli -f /usr/share/jenkins/ref/plugins.txt
+#COPY --chown=jenkins:jenkins ./docker-cli/plugins.txt /usr/share/jenkins/ref/plugins.txt
+#RUN jenkins-plugin-cli -f /usr/share/jenkins/ref/plugins.txt
 
 USER ${user}
 
