@@ -1,16 +1,14 @@
-FROM registry.cn-hangzhou.aliyuncs.com/pendevs/jenkins:v2.380-oe2203
+FROM registry.cn-hangzhou.aliyuncs.com/pendevs/jenkins:latest-oe2203
 ARG user=jenkins
 ARG group=jenkins
 
 USER root
 RUN yum -y install docker
 
-RUN chown -R ${user} /usr/local/bin/* /bin/jenkins-plugin-cli
-RUN chmod u+x /usr/local/bin/* /bin/jenkins-plugin-cli
-
-USER ${user}
-
+# TODO TopCIS Add Plugins Test
+RUN yum -y install docker
 COPY --chown=jenkins:jenkins plugins.txt /usr/share/jenkins/ref/plugins.txt
 RUN jenkins-plugin-cli -f /usr/share/jenkins/ref/plugins.txt
-# RUN jenkins-plugin-cli --plugins "docker-build-step docker-workflow"
+
+USER ${user}
 
