@@ -142,7 +142,6 @@ qy-wechat-notification
 rebuild
 resource-disposer
 role-strategy
-role-strategy.hpi
 ruby-runtime
 run-condition
 scm-api
