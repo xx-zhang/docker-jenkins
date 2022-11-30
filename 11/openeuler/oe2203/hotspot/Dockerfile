@@ -76,7 +76,7 @@ RUN curl -fsSL "https://github.com/krallin/tini/releases/download/${TINI_VERSION
 
 # jenkins version being bundled in this docker image
 ARG JENKINS_VERSION
-ENV JENKINS_VERSION ${JENKINS_VERSION:-2.368}
+ENV JENKINS_VERSION ${JENKINS_VERSION:-2.380}
 
 # jenkins.war checksum, download will be validated using it
 ARG JENKINS_SHA=7f48fa92f7ae26f50d37be13d81a018643b961ba99bc1ac88663723b657ab191
@@ -88,10 +88,10 @@ ARG JENKINS_SHA_URL=https://mirror.tuna.tsinghua.edu.cn/jenkins/war/${JENKINS_VE
 
 # could use ADD but this one does not check Last-Modified header neither does it allow to control checksum
 # see https://github.com/docker/docker/issues/8331
-#RUN curl -fsSL ${JENKINS_URL} -o /usr/share/jenkins/jenkins.war \
-#  && curl -fsSL ${JENKINS_SHA_URL} -o /tmp/jenkins_sha \
-#  && sha256sum -c --strict /tmp/jenkins_sha \
-#  && rm -f /tmp/jenkins_sha
+RUN curl -fsSL ${JENKINS_URL} -o /usr/share/jenkins/jenkins.war \
+  && curl -fsSL ${JENKINS_SHA_URL} -o /tmp/jenkins_sha \
+  && sha256sum -c --strict /tmp/jenkins_sha \
+  && rm -f /tmp/jenkins_sha
 
 ENV JENKINS_UC https://mirrors.tuna.tsinghua.edu.cn/jenkins/updates/update-center.json
 #ENV JENKINS_UC https://mirrors.tuna.tsinghua.edu.cn/jenkins/updates/update-center.json
