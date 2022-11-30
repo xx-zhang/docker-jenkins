@@ -76,7 +76,7 @@ RUN curl -fsSL "https://github.com/krallin/tini/releases/download/${TINI_VERSION
 
 # jenkins version being bundled in this docker image
 ARG JENKINS_VERSION
-ENV JENKINS_VERSION ${JENKINS_VERSION:-2.380}
+ENV JENKINS_VERSION ${JENKINS_VERSION:-2.377}
 
 # jenkins.war checksum, download will be validated using it
 #ARG JENKINS_SHA=7f48fa92f7ae26f50d37be13d81a018643b961ba99bc1ac88663723b657ab191
@@ -99,7 +99,7 @@ ENV JENKINS_UC_EXPERIMENTAL=https://updates.jenkins.io/experimental
 ENV JENKINS_INCREMENTALS_REPO_MIRROR=https://repo.jenkins-ci.org/incrementals
 RUN chown -R ${user} "$JENKINS_HOME" "$REF"
 
-ARG PLUGIN_CLI_VERSION=2.12.8
+ARG PLUGIN_CLI_VERSION=2.12.9
 ARG PLUGIN_CLI_URL=https://github.com/jenkinsci/plugin-installation-manager-tool/releases/download/${PLUGIN_CLI_VERSION}/jenkins-plugin-manager-${PLUGIN_CLI_VERSION}.jar
 RUN curl -fsSL ${PLUGIN_CLI_URL} -o /opt/jenkins-plugin-manager.jar
 
@@ -132,7 +132,11 @@ RUN chown -R ${user} /usr/local/bin/* /bin/jenkins-plugin-cli
 RUN chmod u+x /usr/local/bin/* /bin/jenkins-plugin-cli
 
 RUN find /usr/local/bin/ -type f | xargs sed -i 's/\r//'  && sed -i 's/\r//' /bin/jenkins-plugin-cli
+COPY --chown=jenkins:jenkins ./docker-cli/plugins.txt /usr/share/jenkins/ref/plugins.txt
+RUN jenkins-plugin-cli -f /usr/share/jenkins/ref/plugins.txt
+
 USER ${user}
+
 
 # metadata labels
 LABEL \
