@@ -22,15 +22,12 @@ RUN yum install -y \
 
 RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh -o /tmp/script.rpm.sh \
   && os=el dist=8 bash /tmp/script.rpm.sh \
- org.jruby.javasupport.proxy.InternalJavaProxy
-        at java.base/java.net.URLClassLoader.findClass(URLClassLoader.java:476)
-        at jenkins.util.URLClassLoader2.findClass(URLClassLoader2.java:35)
-        at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:589)
-        at java.base/java.lang.ClassLoader.loadClass(ClassLo && rm -f /tmp/script.rpm.sh \
+  && rm -f /tmp/script.rpm.sh \
   && yum install -y \
     git-lfs \
   && yum clean all \
   && git lfs install
+
 
 ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
 
@@ -139,8 +136,10 @@ RUN chown -R ${user} /usr/local/bin/* /bin/jenkins-plugin-cli
 RUN chmod u+x /usr/local/bin/* /bin/jenkins-plugin-cli
 
 RUN find /usr/local/bin/ -type f | xargs sed -i 's/\r//'  && sed -i 's/\r//' /bin/jenkins-plugin-cli
-#COPY --chown=jenkins:jenkins ./docker-cli/plugins.txt /usr/share/jenkins/ref/plugins.txt
-#RUN jenkins-plugin-cli -f /usr/share/jenkins/ref/plugins.txt
+
+# TODO 直接安装插件到镜像中。方便进行离线部署。
+COPY --chown=jenkins:jenkins ./docker-cli/plugins.txt /usr/share/jenkins/ref/plugins.txt
+RUN jenkins-plugin-cli -f /usr/share/jenkins/ref/plugins.txt
 
 USER ${user}
 
