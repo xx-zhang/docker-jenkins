@@ -137,6 +137,10 @@ RUN chmod u+x /usr/local/bin/* /bin/jenkins-plugin-cli
 
 RUN find /usr/local/bin/ -type f | xargs sed -i 's/\r//'  && sed -i 's/\r//' /bin/jenkins-plugin-cli
 
+# TODO 直接安装插件到镜像中。方便进行离线部署。
+COPY --chown=jenkins:jenkins ./docker-cli/plugins.txt /usr/share/jenkins/ref/plugins.txt
+RUN jenkins-plugin-cli -f /usr/share/jenkins/ref/plugins.txt
+
 USER ${user}
 
 
