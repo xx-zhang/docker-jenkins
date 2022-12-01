@@ -1,4 +1,4 @@
-FROM registry.cn-hangzhou.aliyuncs.com/pendevs/jenkins:v3.377-oe2203
+FROM registry.cn-hangzhou.aliyuncs.com/pendevs/jenkins:v3.365-oe2203
 ARG user=jenkins
 ARG group=jenkins
 
